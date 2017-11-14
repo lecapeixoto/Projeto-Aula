@@ -1,0 +1,65 @@
+#********************************************************************************
+#DISCIPLINA: Tópicos Especiais em Gestão e Tecnologia II - 
+#            Representações distribuídas de texto e modelagem de tópicos 
+#            (TGI853 - Turma C)
+#********************************************************************************
+#*************************ATIVIDADE DE AVALIAÇÃO*********************************
+#ALUNA:     LETICIA DE cASTRO PEIXOTO
+#DATA:      NOV/2017
+#PROFESSOR: RENATO ROCHA
+#********************************************************************************
+
+#********************************************************************************
+# CRIANDO NUVEM DE PALAVRAS COM O RESUMO DOS ARTIGOS BAIXADOS DO SCOPUS-----
+#********************************************************************************
+
+#INSTALANDO PACKAGES
+install.packages("rvest")
+install.packages("dplyr")
+install.packages("stringr")
+install.packages("wordcloud")
+install.packages("tm")
+library(wordcloud)
+library(tm)
+library(rvest)
+library(dplyr)
+library(stringr)
+
+# Tratando dados para nuvem de palavras
+# INSTALANDO PACKAGES
+install.packages("wordcloud")
+install.packages("tm")
+install.packages("SnowballC")
+library(SnowballC)
+library(wordcloud)
+library(tm)
+
+#Arquivo baixado do scopus sem seleção de datas e com as palavras chaves "industry 4.0"
+setwd ("C:/Users/lecap/Documents/LETICIA/ARQUIVOS LETICIA backup/2 ACADEMICO/DOUTORADO/DISCIPLINAS/RENATO")
+df_scopus <- read.csv("scopus1.csv", header=TRUE, sep = ';')
+
+len_abstract <- str_length(df_scopus$Abstract)
+
+abstract <-str_trim(df_scopus$Abstract)
+abstract <- removePunctuation(abstract )#retirar pontuação
+abstract  <- removeNumbers(abstract)#retirar numeros
+
+abstract2 <- tolower(abstract)#passar tudo para lowercase
+abstract2 <- removeWords(abstract2, stopwords("en")) #retirar palavras mais usada na lingua pt
+abstract2 <-  stripWhitespace(abstract2)# remove espacos restantes
+abstract2 <- tolower(abstract2)#passar tudo para lowercase
+abstract2 <- tolower(abstract2)
+wordcloud(abstract2, max.words = 50)
+
+abstract3 <- removeWords(abstract2, stopwords("en"))
+# remove espacos restantes
+abstract3 <-  stripWhitespace(abstract3)
+wordcloud(abstract3, max.words = 50)
+
+#definindo palavras a serem removidas
+stopwords_en <- c(stopwords("en"),"one", "different", "order", "using", "can", "used", "also", "things", "time", "use" , "will", "approach", "proposed", "research", "about", "results", "work", "paper", "article", "objetive", "shows")
+abstract4 <- removeWords(abstract3, stopwords_en)
+wordcloud(abstract4, max.words = 40)
+
+# RESULTADO #
+
